@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เริ่มเพลงพร้อมข้อความแรก</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f8bbd0, #fce4ec);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+            width: 70%;
+        }
+        h1 {
+            color: #d81b60;
+            font-size: 2em;
+            margin: 0;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+    <script>
+        const messages = [
+            "วันนี้วันอะไร?",
+            "เราเดินทางกันมา 6 เดือนแล้วเย้ๆๆ",
+            "ขอบคุณสำหรับทุกๆสิ่ง",
+            "ถ้าไม่รีบไปไหนช่วยอยู่กับเค้าอีกนานๆเลยนะ",
+            "รักไอหมูของเค้าที่สุดด จุ๊บๆๆจูบบบ"
+        ];
+
+        let index = 0;
+
+        function showMessage() {
+            const messageElement = document.querySelector(".container h1");
+            const audio = document.getElementById("background-music");
+
+            // เมื่อข้อความแรกแสดงขึ้น ให้เริ่มเพลง
+            if (index === 0) {
+                audio.play();
+            }
+
+            if (index < messages.length) {
+                messageElement.style.opacity = "0"; // ซ่อนข้อความก่อนเปลี่ยน
+                setTimeout(() => {
+                    messageElement.textContent = messages[index];
+                    messageElement.style.opacity = "1"; // แสดงข้อความใหม่
+                    index++;
+                }, 1000); // รอ 1 วินาทีก่อนเปลี่ยนข้อความ
+            } else {
+                clearInterval(intervalId); // หยุดการเปลี่ยนข้อความเมื่อครบ
+            }
+        }
+
+        let intervalId;
+
+        window.onload = function() {
+            const container = document.querySelector(".container");
+            const h1 = document.createElement("h1");
+            h1.textContent = ""; // เริ่มต้นเป็นข้อความว่าง
+            container.appendChild(h1);
+
+            intervalId = setInterval(showMessage, 3000); // เปลี่ยนข้อความทุก 3 วินาที
+        };
+    </script>
+</head>
+<body>
+    <div class="container"></div>
+    <!-- ใส่เพลง -->
+    <audio id="background-music" src="มากกว่ารัก.mp3" preload="auto"></audio>
+</body>
+</html>
